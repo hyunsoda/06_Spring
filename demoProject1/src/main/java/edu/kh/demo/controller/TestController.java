@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 // Bean : Spring Container(Spring)가 만들고 관리하는 객체
 
+
+
 @Controller // 요청 / 응답을 제어할 컨트롤러 역할 명시 + Bean으로 등록 (== 객체로 생성해서 스프링이 관리)
 public class TestController {
 	// 기존 Servlet : 클래스 단위로 하나의 요청만 처리 가능
@@ -78,6 +80,7 @@ public class TestController {
 		// src/main/resources/templates/test.html 
 		return "test"; // forward (접두사 + 반환값 + 접미사 경로의 html로 forward)
 		// (controller에서 return 값만 쓰면 forward해줌)
+		// ViewResolver가 접두사 접미사 붙여서 forward 진행
 	}
 	
 	
