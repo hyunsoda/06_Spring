@@ -26,7 +26,8 @@ public class MainController {
 		// 접미사 : .html
 		// src/main/resources/templates/common/main.html
 		
-		
+		// main페이지에 접속하자마자 로직이 돌아야 하는 경우 메인페이지를 이런 식으로 작성한다
+		//   	- DB에 접근해야 한다던지... controller에 갔다와야 하는 경우
 		return "common/main";
 	}
 	
