@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -89,6 +90,66 @@ public class ExampleController {
 		model.addAttribute("str", "<h1>테스트 중 &times; </h1>");
 		
 		return "example/ex2";
+	}
+	
+	
+	
+	@GetMapping("ex3")
+	public String ex3(Model model) {
+		
+		// Model : 데이터 전달용 객체 (request scope)
+		
+		model.addAttribute("boardNo",10);
+		
+		model.addAttribute("key","제목");
+		model.addAttribute("query", "검색어");
+		
+		return "example/ex3"; //templates/example/ex3.html로 요청 위임
+	}
+	
+	
+	/* @PathVariable
+	 * - 주소 중 일부분을 변수 값처럼 사용
+	 * + 해당 어노테이션으로 얻어온 값은 request scope에 세팅
+	 * 
+	 * */
+	@GetMapping("ex3/{number}") // number는 변수명
+	public String pathVariableTest( @PathVariable("number") int number ) { // number 값은 request scope에 자동 세팅
+									// 주소 중 {number} 부분의 값을 가져와 매개변수에 저장
+									// + request scope에 세팅
+		log.debug("number : " + number);
+		return "example/testResult";
+		
+	}
+	
+	
+	@GetMapping("ex4")
+	public String ex4(Model model) {
+		
+		Student std = new Student("67890","잠만보", 22);
+		
+		model.addAttribute("std",std);
+		
+		model.addAttribute("num",500);
+		
+		return "example/ex4";
+	}
+	
+	
+	@GetMapping("ex5")
+	public String ex5(Model model) {
+		
+		// Model : Spring에서 값 전달 역할을 하는 객체
+		// 기본적으로 request scope + sesion으로 확장 가능
+		
+		model.addAttribute("message", "타임리프 + JavaScript 사용 연습");
+		model.addAttribute("num1",12345);
+		
+		Student std = new Student();
+		std.setStudentNo("22222");
+		model.addAttribute("std", std);
+		
+		return "example/ex5.html";
 	}
 	
 	
