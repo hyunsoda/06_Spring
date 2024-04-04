@@ -1,0 +1,12 @@
+<!--message 값 alert 띄워줄 script 작성-->
+
+<script th:inline="javascript">
+    const message = /*[[${message}]]*/ "전달받은 메세지";
+                // 전달받은 message가 없으면 null
+
+    if(message != null) {
+        alert(message);
+    }
+    // ra는 원래 request scope지만 1회성으로 session scope가 되는 것이기 때문에 
+    // message 한 번 띄워주고 사라진다
+</script>    

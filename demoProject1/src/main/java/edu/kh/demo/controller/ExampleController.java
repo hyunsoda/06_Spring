@@ -26,7 +26,7 @@ public class ExampleController {
 	@GetMapping("example")  //   /example GET 방식 요청 매핑
 	public String exampleMethod() {
 		
-		// forward 하려는 html 파일 경로 작석
+		// forward 하려는 html 파일 경로 작성
 		// 단, ViewResolver가 제공하는
 		// Thymleaf 접두사, 접미사 제외하고 작성
 		
