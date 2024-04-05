@@ -48,7 +48,8 @@
             <tr th:each="todo : ${todoList}" th:object="${todo}">
                 <td th:text="*{todoNo}">할 일 번호</td>
                 <td>
-                    <a th:text="*{todoTitle}">할 일 제목</a>                
+                    <a th:href="@{/todo/detail(todoNo=*{todoNo})}" th:text="*{todoTitle}">할 일 제목</a>            
+                     <!--th:object해줬기 때문에 todo라는 객체에서 *{필드명}을 이용해서 가져옴 // th:object가 아니라면 ${}사용-->   
                 </td>
                 <td th:text="*{complete}">완료 여부(Y/N)</td>
                 <td th:text="*{regDate}">등록일</td>
