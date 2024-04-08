@@ -11,6 +11,23 @@ const addBtn = document.querySelector("#addBtn");
 // 할 일 목록 조회 관련 요소
 const tbody = document.querySelector("#tbody");
 
+// 할 일 상세 조회 관련 요소
+const popupLayer = document.querySelector("#popupLayer");
+const popupTodoNo = document.querySelector("#popupTodoNo");
+const popupTodoTitle = document.querySelector("#popupTodoTitle");
+const popupComplete = document.querySelector("#popupComplete");
+const popupRegDate = document.querySelector("#popupRegDate");
+const popupTodoContent = document.querySelector("#popupTodoContent");
+const popupClose = document.querySelector("#popupClose");
+
+// 상세 조회 버튼
+const deleteBtn = document.querySelector("#deleteBtn");
+const updateView = document.querySelector("#updateView");
+const changeComplete = document.querySelector("#changeComplete");
+
+
+
+
 // 전체 Todo 개수 조회 및 출력하는 함수 정의
 function getTotalCount(){
 
@@ -121,7 +138,7 @@ addBtn.addEventListener("click", ()=>{
             getTotalCount();
 
             // 할 일 목록 다시 조회
-            // selectTodoList();
+             selectTodoList();
         } else { // 실패
             alert("추가 실패...");
         }
@@ -130,6 +147,49 @@ addBtn.addEventListener("click", ()=>{
 });
 
 // -------------------------------------------------------------------------
+
+// 비동기 (ajax)로 할 일 상세 조회하는 함수
+const selectTodo = (url) => {
+    // 매개변수 url == "/ajax/detail?todoNo=10" 형태의 문자열
+
+    // response.json() : 
+    // - 응답 데이터가 JSON인 경우
+    //   이를 자동으로 object 형태로 변환하는 메서드
+    //   == JSON.parse (JSON 데이터)
+    // 단일값이면 .text지만 Todo라는 자바형태를 JSON으로 받았기 때문에 .json하면 알아서 형변환 해줌
+    fetch(url)
+    .then(resp => resp.json())
+    .then(todo => {
+        // 매개변수 todo :
+        // - 서버 응답(JSON)이 Object로 변환된 값
+
+        // const todo = JSON.parse(result);
+
+        console.log(todo);
+
+        // popup Layer에 조회된 값을 출력
+        popupTodoNo.innerText = todo.todoNo;
+        popupTodoTitle.innerText = todo.todoTitle;
+        popupComplete.innerText = todo.complete;
+        popupRegDate.innerText = todo.regDate;
+        popupTodoContent.innerText = todo.todoContent;
+
+        // popup Layer 보이게 하기
+        popupLayer.classList.remove("popup-hidden");
+    });
+};
+
+//----------------------------------------------------
+
+// popup layer의 x버튼 (#popupClose) 클릭 시 닫기
+popupClose.addEventListener("click", () => {
+    // 숨기는 class를 추가
+    popupLayer.classList.add("popup-hidden");
+})
+
+//----------------------------------------------------
+
+
 
 // 비동기로 할 일 목록을 조회하는 함수
 const selectTodoList = () => {
@@ -154,6 +214,9 @@ const selectTodoList = () => {
 
         //------------------------------------
 
+        // 기존에 출력되어 있던 할 일 목록을 모두 삭제
+        tbody.innerHTML = ""; // 삭제하지 않으면 추가할 때마다 전체가 다시 붙게됨
+
         // #tbody에 tr/td 요소를 생성해서 내용 추가
         for(let todo of todoList){ // JS에서 배열에 순차접근하는 향상된 for문
                                     // 객체 순차접근 : for in
@@ -174,13 +237,71 @@ const selectTodoList = () => {
                     td.append(a);
                     tr.append(td);
 
+                    // a태그 클릭 시 기본 이벤트 (페이지 이동) 막기
+                            // 클릭해서 넘어가는 것은 동기 요청
+                    a.addEventListener("click", (e)=> {
+                        e.preventDefault();  // 기본 이벤트 막기
+
+                        // 할 일 상세 조회 비동기 요청
+                        // e.target.href : 클릭된 a태그의 href 속성 값
+                        selectTodo(e.target.href);
+                    });
+
+                    continue;
+
                 }
+                // 제목이 아닌 경우
+                td.innerText = todo[key];
+                tr.append(td);
             }
+
+            // tbody의 자식으로 tr(한 행) 추가
+            tbody.append(tr);
         }
     })
 };
 
+//---------------------------------------------------------------
 
+// 삭제 버튼 클릭 시
+deleteBtn.addEventListener("click",()=> {
+
+    // 취소 클릭 시 아무것도 안 함
+    if( !confirm("정말 삭제하시겠습니까?")){return;}
+
+    // 삭제할 할 일 번호 얻어오기
+    const todoNo = popupTodoNo.innerText; // #popupTodoNo 내용 얻어오기
+
+    // 비동기 DELETE 방식 요청
+    fetch("/ajax/delete",{
+        method : "DELETE", // DELETE 방식 요청 -> @DeleteMapping 처리
+        
+        // 데이터 하나를 전달해도 application/json 작성
+        headers : {"Content-type" : "application/json"},
+        body : todoNo // todoNo 값을 body에 담아서 전달
+                      // -> @RequestBody로 꺼냄
+    })
+    .then(resp=>resp.text())
+    .then(result => {
+
+        if(result > 0) { // 삭제 성공
+            alert("삭제 되었습니다");
+
+            // 상세 조회 창 닫기
+            popupLayer.classList.add("popup-hidden");
+
+            // 전체, 완료된 할 일 개수 다시 조회
+            // + 할 일 목록 다시 조회
+            getTotalCount();
+            getCompleteCount();
+            selectTodoList();
+
+        } else { // 실패
+            alert("삭제 실패...");
+
+        }
+    });
+});
 
 
 

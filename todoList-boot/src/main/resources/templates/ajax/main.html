@@ -64,6 +64,25 @@
     </table>
 
 
+    <!-- 
+        할 일 상세 조회 시 출력되는 화면 (모달창)
+        popup layer : 현재 페이지 위에 새로운 레이어를 띄우는 것
+     -->
+                         <!-- 처음에 숨겨 놓기 -->
+    <div id="popupLayer" class="popup-hidden">
+
+        <div class="popup-row">
+            번호 : <span id="popupTodoNo"></span>
+            |
+            제목 : <span id="popupTodoTitle"></span>
+
+            <span id="popupClose">&times;</span>
+        </div>
+
+    </div>
+
+
+
 
 
     <script src="/js/ajax-main.js"></script>

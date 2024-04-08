@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -128,6 +129,28 @@ public class AjaxController {
 		// -> [{},{},{}] JSONArray
 	}
 	
+	@ResponseBody
+	@GetMapping("detail")
+	public Todo selectTodo(@RequestParam("todoNo") int todoNo) {
+		
+		
+		// return 자료형 : Todo
+		// -> HttpMessageConverter가 String(JSON)형태로 변환해서 반환
+		return service.todoDetail(todoNo);
+	}
+	
+	// GET/POST 동기, 비동기 모두 가능
+	// DELETE, PUT 비동기에서만 가능
+		// => RESTAPI 기반으로 하는데 (AJAX)도 RESTAPI를 기반
+		// RESTAPI : 모바일 , 웹 등 다양한 환경에서 언어 간에 수월하게 해줌
+			// RESTAPI 사용 시 주소를 그대로 add, delete 등 단순화해서 사용해야 함
+	// Delete 방식 요청 처리 (비동기 요청만 가능!!)
+	@ResponseBody
+	@DeleteMapping("delete")
+	public int todoDelete(@RequestBody int todoNo) { // 단일값으로 넘어왔기 때문에 사용하고자 하는 형 작성
+		
+		return service.todoDelete(todoNo);
+	}
 	
 	
 	
