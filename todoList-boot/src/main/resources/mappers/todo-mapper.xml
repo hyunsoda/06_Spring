@@ -118,6 +118,14 @@
  		WHERE TODO_NO = ${todoNo}
  	</delete>
  	
+ 	<!-- 전체 할 일 개수 조회 -->
+ 	<select id="getTotalCount" resultType="_int">
+ 		SELECT COUNT(*) FROM TB_TODO
+ 	</select>
+ 	
+ 	
+ 	
+ 	
    <!-- 아래 태그는 mapper.xml 파일 만들자마자 삭제!!! -->
    <!--  <cache-ref namespace=""/>-->
 </mapper>

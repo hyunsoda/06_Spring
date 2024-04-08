@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoList - Ajax</title>
+
+    <link rel="stylesheet" href="/css/ajax-main.css"> 
+    <!-- static 기준 -->
+</head>
+<body>
+    <h1>Todo List - Ajax 버전</h1>
+    <pre>
+        Ajax(Asynchronous JavaScript and XML)는 비동기적으로 서버와 브라우저 간에 데이터를 교환하는 기술로
+        웹 페이지를 새로고침하지 않고도 서버로부터 데이터를 받아와서 웹 페이지의 일부분을 업데이트 할 수 있도록 해줌
+        -> 기존에는 웹 페이지를 다시 로드할 때 전체 페이지를 다시 받아와야했기 때문에 사용자 경험이 좋지 않았음
+        -> Ajax를 사용하면 웹 페이지를 로드한 후에도 웹 페이지와 서버 간에 데이터를 주고 받을 수 있으므로 사용자 경험을
+           향상시킬 수 있다.
+        <!-- Asynchronous : 비동기
+             synchrounous : 동기 -->
+    </pre>
+
+    <hr>
+
+    <!-- form 태그 제출은 무조건 동기식! -->
+    <!-- form 태그 제출이 아니라 name속성값이 있을 필요는 없음 
+            식별할 수 있는 속성은 필요-->
+    <div>
+        <h4>할 일 추가</h4>
+
+        <div>
+            제목 : <input type="text" id="todoTitle">
+        </div>
+
+        <br>
+
+        <div>
+            <textarea id="todoContent"
+                cols="50" rows="5" placeholder="상세내용"></textarea>
+        </div>
+
+        <button id="addBtn">추가하기</button>
+    </div>
+
+    <h3 id="todoHeader">
+        전체 Todo 개수 : <span id="totalCount">0</span> 개
+        /
+        완료된 Todo 개수 : <span id="completeCount">0</span> 개
+
+        <button id="reloadBtn">새로고침</button>
+    </h3>
+    
+    <table border="1" style="border-collapse: collapse;">
+        <thead>
+            <th>번호</th>
+            <th>할 일 제목</th>
+            <th>완료 여부</th>
+            <th>등록 날짜</th>
+        </thead>
+
+        <tbody id="tbody">
+            
+        </tbody>
+    </table>
+
+
+
+
+    <script src="/js/ajax-main.js"></script>
+</body>
+</html>
