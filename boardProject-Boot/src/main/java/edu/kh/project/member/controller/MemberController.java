@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.member.model.dto.Member;
@@ -13,6 +14,18 @@ import edu.kh.project.member.model.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import oracle.jdbc.proxy.annotation.Post;
 
+/*
+ * @SessionAttributes({"key","key",...})
+ * - Model에 추가된 속성 중
+ * 	 key 값이 일치하는 속성을 session scope로 변경
+ * 
+ * 
+ * */
+
+
+
+
+@SessionAttributes({"loginMember"})
 @Slf4j
 @Controller
 @RequestMapping("member")
@@ -49,7 +62,21 @@ public class MemberController {
 		// 로그인 서비스 호출
 		Member loginMember = service.login(inputMember); // Email이랑 password 세팅돼있음
 		
+		// 로그인 실패 시 
+		if(loginMember == null) {
+			ra.addFlashAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다");
+		}
 		
+		// 로그인 성공 시 
+		if(loginMember != null) {
+			
+			// Session scope에 loginMember 추가
+			model.addAttribute("loginMember",loginMember);
+			// 1단계 : request scope에 세팅됨
+			
+			// 2단계 : 클래스 위에 @SessionAttributes({}) 어노테이션 때문에
+			//								session scope로 이동됨
+		}
 		
 		return "redirect:/"; // 메인페이지 재요청
 	}

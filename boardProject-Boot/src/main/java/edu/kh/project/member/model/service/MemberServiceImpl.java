@@ -7,12 +7,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.mapper.MemberMapper;
+import lombok.extern.slf4j.Slf4j;
 
 @Transactional(rollbackFor=Exception.class) // 해당 클래스 메서드 종료 시까지 
 				// - 예외(Runtime Exception)가 발생하지 않으면 commit
 				//- 예외(Runtime Exception)가 발생하면 rollback
 				// rollbackFor=Exception.class = 모든 예외로 변경
 @Service // 비즈니스 로직 처리 역할 명시 + Bean 등록
+@Slf4j
 public class MemberServiceImpl implements MemberService{
 	
 	// 등록된 bean중에서 같은 타입 또는 상속관계인 bean을
@@ -31,8 +33,36 @@ public class MemberServiceImpl implements MemberService{
 		// memberEmail : user01@kh.or.kr
 		// memberPw : pass01!
 		
+		// 테스트
 		
-		return null;
+		// bcrypt.encode(문자열) : 문자열을 암호화하여 반환
+		// String bcryptPassword = bcrypt.encode(inputMember.getMemberPw());
+		// log.debug("bcryptPassword : " + bcryptPassword);
+		
+		// boolean result = bcrypt.matches(inputMember.getMemberPw(), bcryptPassword);
+		// log.debug("result : " + result);
+		
+		// 1. 이메일이 일치하면서 탈퇴하지 않은 회원 조회
+		Member loginMember = mapper.login(inputMember.getMemberEmail());
+		
+		// 2. 만약에 일치하는 이메일이 없어서 조회결과가 null인 경우
+		if(loginMember == null) return null;
+		
+		// 3. 입력 받은 비밀번호(inputMember.getMemberPw() )와 
+		// 암호화된 비밀번호 (loginMember.getMemberPw() )
+		// 두 비밀번호가 일치하는 지 확인
+		
+		// 일치하지 않으면 
+		if( !bcrypt.matches(inputMember.getMemberPw(), loginMember.getMemberPw())) {
+			return null;
+		}
+		
+		// 로그인 결과에서 비밀번호 제거
+				// session에 실어줄 것이기 때문에 비밀번호 실리면 안됨
+		loginMember.setMemberPw(null);
+		
+		
+		return loginMember;
 	}
 	
 	

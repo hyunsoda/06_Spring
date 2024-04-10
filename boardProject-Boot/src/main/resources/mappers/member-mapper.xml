@@ -5,5 +5,18 @@
 			-> 매퍼 인터페이스 메서드 호출 시
 				xml 파일에 작성된 태그 중 메서드명과 같은 id를 가진 SQL이 수행됨 -->
 
+	<!--parameterType 속성은 필수 속성 아님!
+		왜? TypeHandler를 이용해서 자료형을 판별할 수 있음
+	-->
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="Member">  <!--DBconfig에서 별칭등록 해둬서 Member로 부르기 가능-->
+		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_PW, MEMBER_TEL,
+		MEMBER_ADDRESS, PROFILE_IMG, AUTHORITY ,
+		TO_CHAR(ENROLL_DATE,'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"')ENROLL_DATE 
+		FROM MEMBER 
+		WHERE MEMBER_EMAIL = #{memberEmail}
+		AND MEMBER_DEL_FL ='N'
+	</select>
 
 </mapper>
