@@ -15,6 +15,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor  // final이 붙은 필드 / @NotNull 필드에 자동으로 의존성 주입 (@Autowired 생성자 방식 코드 자동완성)   (보이지는 않음)
 public class EmailController {
 
+	/*이메일
+		- 이메일 양식 유효성 검사
+		- 중복 검사 (ajax)
+		- 인증번호 발송 (난수)
+	 * */
+
+
+
+	
+	
+	
+	
 	private final EmailService service;
 	// private final EX ex;
 	// private final Test test;
