@@ -23,7 +23,9 @@
       <section class="content-2">
         <!-- 로그인, 회원가입 버튼 -->
 
-          <!-- 로그인 박스 -->
+          <!-- 로그인이 되어있지 않은 경우      타임리프에서 session.은 session scope -->
+          <th:block th:if="${session.loginMember == null}">
+                     <!-- 로그인 박스 -->
           <form action="/member/login" method="POST" id="loginForm">
             <fieldset class="id-pw-area">
   
@@ -46,7 +48,7 @@
   
             <label>
               <!-- label 태그 : input 태그의 제목을 나타내는 태그  -->
-              <input type="checkbox" name="saveId">
+              <input type="checkbox" name="saveId"g>
               아이디 저장
             </label>
   
@@ -59,6 +61,44 @@
             </article>
   
           </form>
+          </th:block>
+
+
+          <!-- 로그인이 되어있는 경우 -->
+          <!-- <th:block th:unless="${session.loginMember==null}"></th:block> 도 가능 --> 
+          <th:block th:if="${session.loginMember!=null}">
+            <article class="login-area">
+              <a href="/myPage/profile">
+                <!-- 프로필 이미지 -->
+
+                <!-- messages.properties에 작성된 기본 사용자 이미지 
+                    -> session.loginMember.profileImg에 유저가 등록한 이미지가 있다면 (null이 아니라면)
+                       session.loginMember.profileImg에 저장된 이미지 경루를 쓰겠다.
+                       업다면(null 이라면) user(/images/user.png)
+                -->
+                                  <!--th:with : 변수 만드는 타임리프 #{}-> messages.properties key를 부른 것/ 을 user라고 부르겠다-->
+                <img th:with="user=#{user.default.image}"
+                    th:src="${session.loginMember.profileImg ?: user}"
+                    id="memberProfile"
+                    alt="프로필 이미지">      <!--null이 아니면 좌측을 쓰고 null이면 user를 써라-->
+              </a>
+
+
+              <!-- 닉네임, 이메일, 로그아웃 버튼 영역 -->
+              <div class="my-info" th:object="${session.loginMember}">
+                <!-- th:object가 작성되면 태그 안에서 필드명만 불러도 됨 -->
+                <div>
+                  <a href="/myPage/info" id="nickname" th:text="*{memberNickname}">닉네임</a>
+                  <a href="/member/logout" id="logoutBtn">로그아웃</a>
+                </div>
+
+                <p th:text="*{memberEmail}">이메일</p>
+              </div>
+
+
+            </article>
+          </th:block>
+ 
 
       </section>
 
