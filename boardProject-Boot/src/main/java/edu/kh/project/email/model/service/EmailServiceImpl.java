@@ -1,10 +1,16 @@
 package edu.kh.project.email.model.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import edu.kh.project.email.model.mapper.EmailMapper;
 import jakarta.mail.internet.MimeMessage;
@@ -17,6 +23,10 @@ public class EmailServiceImpl implements EmailService{
 	
 	// EmailConfig 설정이 적용된 객체(메일 보내기 기능)
 	private final JavaMailSender mailSender;
+	
+	// 타임리프(템플릿 엔진)을 이용해서 html 코드 -> java로 변환
+	private final SpringTemplateEngine templateEngine;
+	
 	
 	// Mapper 의존성 주입
 	private final EmailMapper mapper;
@@ -58,10 +68,16 @@ public class EmailServiceImpl implements EmailService{
 			helper.setTo(email);  // 받는 사람 이메일 지정
 			helper.setSubject(subject); // 이메일 제목 지정
 			
-			helper.setText(authKey); // 변경 -> html보낼 거임 (변경예정)
+			helper.setText(loadHtml(authKey, htmlName),true); // 변경 -> html보낼 거임 (변경예정)
+			// HTML 코드 해석 여부 true (innerHTML 해석 여부)
 			
 			// CID (Content-ID)를 이용해서 메일에 이미지 첨부
+			// (파일 첨부와는 다름, 이메일 내용 자체에 사용할 이미지 첨부)
 			// logo 추가 예정
+			helper.addInline("logo", new ClassPathResource("static/images/logo.jpg"));
+							// ClassPath에 있는 Resource를 logo라는 이미지로 CID에 넣겠다
+			// -> 로고 이미지를 메일 내용에 첨부하는데
+			// 	  사용하고 싶으면 "logo"라는 id를 작성해라
 			
 			// 메일 보내기
 			mailSender.send(mimeMessage);
@@ -72,10 +88,53 @@ public class EmailServiceImpl implements EmailService{
 		}
 		
 		
+		// 이메일 + 인증 번호를 "TB_AUTH_KEY" 테이블 저장
+				// Mapper에 보낼 수 있는 값 한 개 => 이메일 +  인증번호 둘 다 보내기 위해 Map으로 묶기
+		Map<String, String> map = new HashMap<>();
+		map.put("authKey", authKey);
+		map.put("email", email);
 		
+		// 1) 해당 이메일이 DB에 존재하는 경우가 있을 수 있기 때문에
+		// 	  수정(update)을 먼저 진행
+		//   -> 1 반환 == 업데이트 성공 == 이미 존재해서 인증번호 변경
+		//	 -> 0 반환 == 업데이트 실패 == 이메일 존재 X --> INSERT 시도
 		
-		return null;
+		int result = mapper.updateAuthKey(map);
+		
+		// 2) 1번 update 실패 시 insert 시도
+		if(result == 0) {
+			result = mapper.insertAuthKey(map);
+		}
+		
+		// 수정, 삽입 후에도 result가 0 == 실패
+		if(result ==0) return null;
+		
+		// 성공
+		return authKey; // 오류없이 완료되면 authKey 반환
 	}
+	
+	
+	
+	
+	// HTML 파일을 읽어와 String으로 변환 (타임리프 적용)
+	private String loadHtml(String authKey, String htmlName) {
+		  // 메일 보낼 때 String밖에 못 보냄  HTML을 String으로 변환해서 보낼 것
+
+		// org.thylmeleaf.Context 선택
+		Context context = new Context(); 
+		
+		// thylmeaf가 적용되어 있는 HTML에서 사용할 값을 세팅할 수 있는 객체 (email/signup.html에서  "${authKey}"로 사용
+		context.setVariable("authKey", authKey);
+		
+		// templates/email 폴더에서 htmlName과 같은
+		// ~.html 파일 내용을 읽어와 String으로 변화
+		return templateEngine.process("email/" + htmlName, context); 
+	}
+
+	
+	
+	
+	
 	
 	/** 인증번호 생성 (영어 대문자 + 소문자 + 숫자 6자리)
 	    * @return authKey
@@ -108,7 +167,18 @@ public class EmailServiceImpl implements EmailService{
 	       return key;
 	   }
 
+
+
+	// 이메일, 인증번호 확인
+	@Override
+	public int checkAuthKey(Map<String, Object> map) {
+		
+		return mapper.checkAuthKey(map);
+	}
+
 	   
+	
+	
 /* Google SMTP를 이용한 이메일 전송하기
  * 
  * - SMTP (Simple Mail Transfer Protocol, 간단한 메일 전송 규약)
