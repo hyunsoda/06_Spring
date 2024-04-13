@@ -19,7 +19,7 @@ public class EmailController {
 
 	/*이메일
 		- 이메일 양식 유효성 검사
-		- 중복 검사 (ajax)
+		- 중복 검사 (Ajax)
 		- 인증번호 발송 (난수)
 	 * */
 
