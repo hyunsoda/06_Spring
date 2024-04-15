@@ -103,7 +103,7 @@ public class AjaxController {
 			// JSON이 파라미터로 전달된 경우 아래 방법으로 얻어오기 불가능
 			// @RequestParam("todoTitle") String todoTitle
 			
-			@RequestBody Todo todo // Java Todo DTO와 HttpMessageConvert가 mapping해서 setting함
+			@RequestBody Todo todo // Java Todo DTO와 HttpMessageConverter가 mapping해서 setting함
 			// 객체 안에 필드명과 같음
 			// => value 값들을 알아서 세팅해줌
 			// 마땅치 않으면 Map으로 받아도 됨

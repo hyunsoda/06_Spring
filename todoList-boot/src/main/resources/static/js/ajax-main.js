@@ -63,7 +63,7 @@ function getTotalCount(){
         // result 매개 변수 == Controller 메서드에서 반환된 진짜 값
         console.log("result : ", result);
 
-        // #totalCount 요소의 내용으 result로 변경
+        // #totalCount 요소의 내용은 result로 변경
         totalCount.innerText = result;
     });
 
