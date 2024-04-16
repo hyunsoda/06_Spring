@@ -1,18 +1,21 @@
 package edu.kh.project.member.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.service.MemberService;
 import jakarta.servlet.http.Cookie;
@@ -209,6 +212,119 @@ public class MemberController {
 		
 		return "redirect:" + path;
 	}
+	
+//==============================빠른 로그인 내 답안=============================	
+	@ResponseBody
+	@GetMapping("fastLogin")
+	public List<Member> fastLogin(Model model) {
+		List<Member> memberList = service.fastLogin();
+		
+		
+		return memberList;
+		
+	}
+	
+	
+	
+	@GetMapping("fastlogin2")
+	public String fastlogin2(@RequestParam("memberEmail") String memberEmail,
+			RedirectAttributes ra, Model model) {
+		
+		Member loginMember = service.fastLogin2(memberEmail);
+		
+				if(loginMember == null) {
+					ra.addFlashAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다");
+				}
+				
+				// 로그인 성공 시 
+				if(loginMember != null) {
+					
+					// Session scope에 loginMember 추가
+					model.addAttribute("loginMember",loginMember);
+				}
+	
+		return "redirect:/";
+	}
+	
+// ----------------강사님 예시 답안---------------	
+	
+	@GetMapping("quickLogin")
+	public String quickLogin(
+			@RequestParam("memberEmail") String memberEmail,
+			Model model,
+			RedirectAttributes ra
+			) {
+		
+		Member loginMember = service.quickLogin(memberEmail);
+		
+		if(loginMember == null) {
+			ra.addFlashAttribute("message", "해당 이메일이 존재하지 않습니다.");
+			
+		} else {
+			model.addAttribute("loginMember", loginMember);
+			
+		}
+		
+		return "redirect:/";
+	}
+	
+	
+	
+	/** 회원 목록 조회
+	 * @return List<Member>
+	 */
+	@ResponseBody
+	@GetMapping("selectMemberList")
+	public List<Member> selectMemberList(){
+		
+		// (java) List
+		// (Spring) HttpMessageConverter가 JSON Array(문자열)로 변견
+		// -> (JS) response => response.json()
+		
+		return service.selectMemberList();
+	}
+	
+	// -------- 비밀번호 초기화 강사님 코드
+	
+//	@ResponseBody
+//	@PutMapping("resetPW") // vscode에 put으로 작성
+//	public int resetPw(@RequestBody int inputNo) {
+//			// RequestParam 은 input name =""   or  
+//			// queryString  통해서 ?memberName=홍길동
+//		return service.resetPw(inputNo);
+//		
+//	}
+	
+	
+	
+	
+	
+	
+	@ResponseBody
+	@PostMapping("resetPw")
+	public int resetPw(@RequestBody int memberNo,
+			Model model) {
+		
+		
+		Member member = service.selectMember(memberNo);
+		
+		int result = service.resetPw(member);
+
+		return result;
+	}
+	
+	
+	@ResponseBody
+	@PostMapping("restoration")
+	public int restoration(@RequestBody int memberNo) {
+		
+		int result = service.restoration(memberNo);
+		
+		return result;
+		
+	}
+	
+	
 	
 	
 }

@@ -443,3 +443,13 @@
   .content-1 hr{
     margin: 20px 0;
   }
+
+
+
+.fastloginbtn {
+  border: 1px black solid;
+  border-radius: 5px;
+  padding: 7px;
+  margin-right: 5px;
+}
+

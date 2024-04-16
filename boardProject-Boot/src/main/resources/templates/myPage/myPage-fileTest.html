@@ -38,11 +38,18 @@
 
           * application/x-www-form-urlencoded (기본값)
            - URL 인코딩된 "문자열" 로 서버에 제출
-
+          <!-- 문자열 형태로 인코딩해서 서버에 제출 -->
 
           * multipart/form-data  (무조건 POST에서만 동작)
-
-           - 제출되는 여러 데이터 타입에 맞춰서 인코딩하여 제출
+          <!-- form태그안에 제출될 내용 중 file이 있으면 mutilpart/form-data를 써줘야 함 -->
+           <!--
+            <form enctype="multipart/form-data" method="post">
+              <input type="file">
+            </form>  
+            -->
+          
+          
+          - 제출되는 여러 데이터 타입에 맞춰서 인코딩하여 제출
             문자열 -> String
             숫자   -> String -> int/double(Spring이 처리)
             파일   -> 2진 데이터
@@ -53,8 +60,27 @@
 
         </pre>
 
+        <!-- file을 GET에서 보낼 수는 있지만 길이제한, 보안 문제 때문에 거의 사용하지 않음
+          - Get 요청 데이터가 URL에 담긴다 -> 보안 취약
+          - URL로 통해서 보내는 데이터의 길이 제한  -->
      	
-        
+
+          <!-- 파일이 있으면 밑 세 가지 필수 제출 -->
+        <form action="/myPage/file/test1"
+            method="post"
+            enctype="multipart/form-data"
+        >
+          <h3>업로드 테스트 1</h3>
+
+          <!-- type="file"도 결국에는 Parameter
+              -> @RequestParam으로 처리 가능
+              name 속성 값 있어야 함
+          -->
+          <input type="file" name="uploadFile">  
+          <button class="myPage-submit">제출하기</button>
+        </form>
+
+
 
 
       </section>

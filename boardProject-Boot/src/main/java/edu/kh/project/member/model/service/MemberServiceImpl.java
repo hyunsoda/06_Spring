@@ -1,5 +1,9 @@
 package edu.kh.project.member.model.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -115,6 +119,110 @@ public class MemberServiceImpl implements MemberService{
 		// 회원가입 매퍼 메서드 호출
 		return mapper.signup(inputMember);
 	}
+
+	
+	
+	
+	@Override
+	public List<Member> fastLogin() {
+		
+		return mapper.fastLogin();
+	}
+
+	
+	
+	@Override
+	public Member fastLogin2(String memberEmail) {
+		
+		Member loginMember = mapper.fastlogin(memberEmail);
+		
+		// 조회된 비밀번호 null
+		loginMember.setMemberPw(null);
+		
+		return loginMember;
+	}
+
+	// 빠른 로그인
+	// -> 일반 로그인에서 비밀번호 비교만 제외
+	@Override
+	public Member quickLogin(String memberEmail) {
+		
+		Member loginMember = mapper.login(memberEmail);
+		
+		// 탈퇴 or 없는 회원
+		if(loginMember == null) return null;
+		
+		// 조회된 비밀번호 null
+		loginMember.setMemberPw(null);
+		
+		return loginMember;
+	}
+
+	
+	
+	
+	// 회원 전체 조회
+	@Override
+	public List<Member> selectMemberList() {
+		
+		List<Member> memberList = mapper.selectMemberList();
+		
+		if(memberList == null) return null;
+		
+		
+		return memberList;
+	}
+
+	
+	// 회원 한 명 조회
+	@Override
+	public Member selectMember(int memberNo) {
+		
+		return mapper.selectMember(memberNo);
+	}
+	
+		
+	// 회원 비밀번호 변경 (pass01!)	
+	@Override
+	public int resetPw(Member member) {
+		
+		
+		String encPw = bcrypt.encode("pass01!");
+		
+		member.setMemberPw(encPw);
+		
+		int result = mapper.resetPw(member);
+		
+		return result;
+	}
+
+	
+	// 회원 탈퇴여부 취소
+	@Override
+	public int restoration(int memberNo) {
+
+		int result = mapper.restoration(memberNo);
+		
+		return result;
+	}
+
+
+/*
+	// 비밀번호 초기화 강사님 코드
+	@Override
+	public int resetPw(int inputNo) {
+		
+		// pass01! -> 암호화
+		String encPw = bcrypt.encode("pass01!");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("inputNo", inputNo);
+		map.put("encPW", encPw);
+		
+		return mapper.resetPw(map);
+	}
+*/
+
 	
 	
 }

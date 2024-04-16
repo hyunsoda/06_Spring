@@ -93,4 +93,194 @@ if(loginForm != null) {
 }
 
 
+// ===============================
+const fastLogin = document.getElementById("fastLogin");
+
+fetch("/member/fastLogin")
+.then(resp =>resp.json())
+.then(result => {
+console.log(result);
+
+    for(let i=0; i< result.length; i++){
+            const a = document.createElement("a");
+        
+            a.innerText = result[i].memberEmail;
+            fastLogin.append(a);
+            a.classList.add("fastloginbtn");
+            a.href="/member/fastlogin2?memberEmail="+result[i].memberEmail;
+
+    } 
+   
+})
+
+
+// ===================================== 강사님 예시
+
+const quickLoginBtns = document.querySelectorAll(".quick-login");
+
+quickLoginBtns.forEach( (item,index) => {
+    // item : 현재 반복 시 꺼내온 객체
+    // index : 현재 반복 중인 인덱스
+
+    // quickLoginBtns 요소인 button 태그 하나씩 꺼내서 이벤트 리스너 추가
+    item.addEventListener("click", ()=> {
+
+        const email = item.innerText; // 버튼에 작성된 이메일 얻어오기
+        
+        location.href ="/member/quickLogin?memberEmail=" +email;
+
+    });
+
+
+})
+
+
+//==================================================
+
+/* 회원 목록 조회 (비동기) */
+
+// 조회버튼
+const selectMemberList = document.querySelector("#selectMemberList");
+
+// tbody
+const memberList = document.querySelector("#memberList");
+
+/*
+//-------------------------
+
+
+    td 요소를 만들고 text 추가 후 반환
+    const createTd = (text) =>{
+        const td = document.createElement("td");
+        td.innerText = text;
+        return td;
+    }
+
+//----------------------
+*/
+
+// 조회 버튼 클릭 시
+selectMemberList.addEventListener("click", ()=> {
+
+    // 1) 비동기로 회원 목록 조회
+    // (포함될 회원 정보 : 회원 번호, 회원 이메일, 회원 닉네임, 탈퇴여부)
+    fetch("/member/selectMemberList")
+    .then(resp => resp.json()) // JSON.parse(resp)
+    .then(list => {
+        // list  바로 이용 -> JS 객체 배열
+
+        console.log(result);
+        // 이전 내용 삭제
+        memberList.innerHTML ="";
+
+/*
+        // tbody에 들어갈 요소를 만들고 값 세팅 후 추가
+        list.forEach( (member,index)=> {
+            // member : 현재 반복 접근 중인 요소
+            // index : 현재 접근 중인 인덱스
+
+            // tr 만들어서 그 안에 td 만들고, append 후 
+            // tr을 tbody에 append
+            const keyList = ['memberNo','memberEmail','memberNickname','memberDelFl'];
+                             // list 안에 들어가 있는 key값들
+            const tr = document.createElement("tr");
+            
+            keyList.forEach(key => tr.append(createTd(member[key])))
+
+            // tbody에 자식으로 tr을 추가
+            memberList.append(tr);
+        });
+*/
+
+
+        for(let member of list ){
+            const tr = document.createElement("tr");
+
+            const arr = ['memberNo','memberEmail','memberNickname','memberDelFl'];
+
+            for(let key of arr){
+
+                const td = document.createElement("td");
+
+                td.innerText = member[key];
+                tr.append(td);
+
+            }
+            memberList.append(tr);
+        }
+
+    })
+
+})
+
+// =============== 특정 회원 비밀번호 초기화(Ajax)==============
+
+
+const resetPw = document.getElementById("resetPw");
+
+resetPw.addEventListener("click", ()=> {
+
+    // 입력 받은 회원 번호 얻어오기
+    const memberNo = document.getElementById("resetMemberNo").value;
+   
+    if(memberNo.trim().length == 0){
+        alert("회원 번호를 입력해주세요");
+        return;
+    }
+
+
+    fetch("/member/resetPw",{
+        method : "POST",
+        headers : {"Content-type" : "application/json"}, 
+        // body에 넣는 값이 하나여도 header는 application/json작성해야함
+        body: memberNo
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        
+        // result == 컨트롤러로부터 반환받아 TEXT로 파싱한 값
+        // "1" "0"
+
+        if(result > 0){
+            alert("변경되었습니다.");
+        } else {
+            alert("변경 실패");
+        }
+    });
+
+})
+
+
+// ========================특정 회원(회원 번호) 탈퇴 복구 (Ajax)====================
+
+const restorationBtn = document.getElementById("restorationBtn");
+
+restorationBtn.addEventListener("click", () => {
+    const memberNo = document.getElementById("restorationMemberNo").value;
+
+    fetch("/member/restoration",{
+        method : "POST",
+        headers : {"Content-type" : "application/json"},
+        body : memberNo
+    })
+    .then(resp => resp.text())
+    .then(result =>{
+
+        console.log(result);
+
+        if(result > 0){
+            alert("회원 탈퇴가 복구되었습니다.");
+        } else {
+            alert("탈퇴 복구 실패");
+        }
+    });
+})
+
+
+
+
+
+
+
+
 

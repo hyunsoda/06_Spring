@@ -49,5 +49,46 @@
 				 DEFAULT)
 	</insert>
 	
+	
+	<select id="fastLogin" resultType="Member">
+		SELECT MEMBER_EMAIL
+		FROM MEMBER
+		WHERE MEMBER_DEL_FL = 'N'
+	</select>
+	
+		<select id="fastlogin" resultType="Member">  <!--DBconfig에서 별칭등록 해둬서 Member로 부르기 가능-->
+		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_PW, MEMBER_TEL,
+		MEMBER_ADDRESS, PROFILE_IMG, AUTHORITY ,
+		TO_CHAR(ENROLL_DATE,'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"')ENROLL_DATE 
+		FROM MEMBER 
+		WHERE MEMBER_EMAIL = #{memberEmail}
+		AND MEMBER_DEL_FL ='N'
+	</select>
+	
+	
+	<select id="selectMemberList" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_DEL_FL
+		FROM MEMBER
+	</select>
+
+
+	<update id="resetPw">
+		UPDATE MEMBER SET MEMBER_PW = #{memberPw}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<select id="selectMember" resultType="Member">
+		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_PW, MEMBER_TEL,
+		MEMBER_ADDRESS, PROFILE_IMG, AUTHORITY ,
+		TO_CHAR(ENROLL_DATE,'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"')ENROLL_DATE 
+		FROM MEMBER 
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+
+	<update id="restoration">
+		UPDATE MEMBER SET MEMBER_DEL_FL = 'N'
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+
 
 </mapper>
