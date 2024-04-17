@@ -169,7 +169,7 @@ selectMemberList.addEventListener("click", ()=> {
     .then(list => {
         // list  바로 이용 -> JS 객체 배열
 
-        console.log(result);
+        console.log(list);
         // 이전 내용 삭제
         memberList.innerHTML ="";
 

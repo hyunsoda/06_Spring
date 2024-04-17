@@ -28,10 +28,17 @@
         <h1 class="myPage-title">프로필</h1>
         <span class="myPage-subject">프로필 이미지를 변경할 수 있습니다.</span>
 
+        <!--현재 위치 : localhost/myPage/prifile
+            상대 경로 : profile
+            목포 경로 : localhost/myPage/profile (POST)     현재 위치의 맨 뒤가 지워지고 상대경로가 들어감
+        -->
         <form action="profile" method="POST" name="myPageFrm" id="profile" enctype="multipart/form-data">
           <div class="profile-image-area">
 
-            <img>
+            <!--messages.properties 에서 가져옴-->
+            <img th:with="user=#{user.default.image}"  
+                  th:src="${session.loginMember.profileImg ?:user}" id="profileImg"
+            >   <!--session에 있는 loginMember의 profileImg가 비어있지 않으면 그걸 쓰고 없으면 user라는 것을 쓴다-->
 
           </div>
           <span id="deleteImage">x</span>
@@ -46,12 +53,12 @@
 
           <div class="myPage-row">
             <label>이메일</label>
-            <span></span>
+            <span th:text="${session.loginMember.memberEmail}"></span>
           </div>
 
           <div class="myPage-row">
             <label>가입일</label>
-            <span></span>
+            <span th:text="${session.loginMember.enrollDate}"></span>
           </div>
 
         </form>
@@ -68,7 +75,9 @@
   
   
   <!-- 회원 프로필 이미지 js 변수로 얻어놓기 -->
-
+  <script th:inline="javascript">
+    const loginMemberProfileImg = /*[[${session.loginMember.profileImg}]]*/ "회원프로필이미지"
+  </script>
 
   <script src="/js/myPage/myPage.js"></script>
 </body>
