@@ -46,14 +46,12 @@
   <!-- navigator -->
   <nav>
     <ul>
-      <li>
-        <a href="#">공지사항</a>
-      </li>
-      <li>
-        <a href="#">자유 게시판</a>
-      </li>
-      <li>
-        <a href="#">질문 게시판</a>
-      </li>
+      <th:block th:each="boardType : ${application.boardTypeList}">  <!--반복접근해서 부를 이름 : 반복할 객체-->
+        <li>
+          <a th:text="${boardType.boardName}"
+            th:href="@{/board/{boardCode}(boardCode=${boardType.boardCode})}">게시판 이름</a>
+        </li>             <!--{boardCode}가 무엇인지 ())안에 작성-->
+
+      </th:block>
     </ul>
   </nav>
