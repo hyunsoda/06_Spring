@@ -46,6 +46,14 @@ public class FileConfig implements WebMvcConfigurer{
 	@Value("${my.profile.resource-location}")
 	private String profileResourceLocation;
 	
+	// -------------------------------------------------------
+	
+	// 게시판 이미지 
+	@Value("${my.board.resource-handler}")   // config.properties에 작성한 키
+	private String boardResourceHandler;     // 요청주소
+	
+	@Value("${my.board.resource-location}")
+	private String boardResourceLocation;    // 연결될 서버 폴더 경로
 	
 	
 	// 요청 주소에 따라
@@ -73,6 +81,11 @@ public class FileConfig implements WebMvcConfigurer{
 		//  /C: 는 Windows 시스템에서 C드라이브를 가리킴
 		// file:///C: 는 "C 드라이브의 루트 디렉토리"를 의미함.
 		
+		
+		// 게시글 이미지 요청 - 서버 폴더 연결 추가
+		registry
+		.addResourceHandler(boardResourceHandler)
+		.addResourceLocations(boardResourceLocation);   // 둘이 연결해서 등록
 		
 		
 	}
