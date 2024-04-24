@@ -17,7 +17,7 @@
 // 1. #boardLike 가 클릭되었을 때
 document.querySelector("#boardLike").addEventListener("click", e => {
 
-    // 2. 로그인 상태가 아닌 경우 동작 X
+    // 2. 로그인 상태가 아닌 경우 동작 X--
     if(loginMemberNo == null){
         alert("로그인 후 이용해 주세요");
         return;
