@@ -14,6 +14,8 @@
     <main>
         <th:block th:replace="~{common/header}"></th:block>
 
+        <!--현재 : editBoard/1/2006/update?cp=1
+            목표 : editBoatd/1/2006/update?cp=1 (POST)  상대경로-->
         <form th:action="@{update}" th:object="${board}" method="POST" 
             class="board-write" id="boardUpdateFrm" enctype="multipart/form-data">  
 
@@ -98,6 +100,34 @@
 
     <th:block th:replace="~{common/footer}"></th:block>
 
+    <!-- 이미지 미리보기 설정 -->
+    <script th:inline="javascript">
+        const imageList = /*[[${board.imageList}]]*/ [];
+                    // board안에 있는 이미지리스트 꺼내오기
 
+        const previewList = document.querySelectorAll("img.preview"); // img태그 중에 preview (preview만 써도 됨)               
+
+
+        const orderList = []; // 기존에 존재하던 이미지 순서를 기록
+
+
+        for(let img  of imageList) { // 배열은 for of
+            // img는 BoardImg 형태
+
+            previewList[img.imgOrder].src = img.imgPath + img.imgRename;
+            // previewList[img.imgOrder] : 하나의 이미지 태그 <img>
+            // previewList[img.imgOrder].src : <img src=>
+
+            orderList.push(img.imgOrder); // 상세 조회하던 시점에 있던 이미지 리스트를 기억
+            // 다섯 개 이미지가 전부다 있었다
+            // -> [0,1,2,3,4]
+
+
+        }
+
+
+    </script>
+
+    <script src="/js/board/boardUpdate.js"></script>
 </body>
 </html>

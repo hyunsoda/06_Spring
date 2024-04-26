@@ -59,3 +59,27 @@ document.querySelector("#boardLike").addEventListener("click", e => {
 
 
 })
+
+
+// ---------- 게시글 수정 버튼 -----------------
+
+const updateBtn = document.querySelector("#updateBtn");
+
+if(updateBtn != null){ // 수정 버튼 존재 시 (없을 수도 있어서 처리 안 해주면 오류날 수도 있음)
+
+    updateBtn.addEventListener("click", () => {
+
+        // GET 방식
+        // 현재 : /board/1/2001?cp=1
+        // 목표 : /editBoard/1/2001/update?cp=1
+        location.href = location.pathname.replace('board','editBoard')
+                        // 현재 경로 이름 중에서 board라는 게 있으면 editBoard로 바꾸겠다
+                        + "/update"
+                        + location.search;   // cp=1 부분 queryString찾아서 옆에 붙여줌
+
+
+    });
+}
+
+
+

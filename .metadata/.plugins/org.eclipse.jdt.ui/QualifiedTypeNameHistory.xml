@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="jakarta.servlet.http.HttpSession"/>
-    <fullyQualifiedTypeName name="jakarta.servlet.FilterRegistration"/>
     <fullyQualifiedTypeName name="edu.kh.project.common.filter.LoginFilter"/>
     <fullyQualifiedTypeName name="org.springframework.boot.web.servlet.FilterRegistrationBean"/>
     <fullyQualifiedTypeName name="java.util.Arrays"/>
@@ -13,7 +11,6 @@
     <fullyQualifiedTypeName name="edu.kh.project.common.interceptor.BoardTypeInterceptor"/>
     <fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
     <fullyQualifiedTypeName name="org.springframework.web.servlet.config.annotation.WebMvcConfigurer"/>
-    <fullyQualifiedTypeName name="edu.kh.project.board.model.service.BoardService"/>
     <fullyQualifiedTypeName name="edu.kh.project.board.model.dto.Pagination"/>
     <fullyQualifiedTypeName name="org.apache.ibatis.session.RowBounds"/>
     <fullyQualifiedTypeName name="lombok.Getter"/>
@@ -22,10 +19,8 @@
     <fullyQualifiedTypeName name="lombok.Builder"/>
     <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
     <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ResponseBody"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
-    <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="jakarta.servlet.http.Cookie"/>
     <fullyQualifiedTypeName name="jakarta.servlet.http.HttpServletRequest"/>
     <fullyQualifiedTypeName name="jakarta.servlet.http.HttpServletResponse"/>
@@ -41,18 +36,8 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMapping"/>
     <fullyQualifiedTypeName name="lombok.extern.slf4j.Slf4j"/>
     <fullyQualifiedTypeName name="edu.kh.project.board.model.service.EditBoardService"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ModelAttribute"/>
-    <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
     <fullyQualifiedTypeName name="edu.kh.project.board.model.dto.Board"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.SessionAttribute"/>
     <fullyQualifiedTypeName name="edu.kh.project.member.model.dto.Member"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
-    <fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
-    <fullyQualifiedTypeName name="org.springframework.web.servlet.mvc.support.RedirectAttributes"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="edu.kh.project.common.util.Utility"/>
     <fullyQualifiedTypeName name="org.springframework.context.annotation.PropertySource"/>
@@ -60,4 +45,19 @@
     <fullyQualifiedTypeName name="edu.kh.project.board.model.dto.BoardImg"/>
     <fullyQualifiedTypeName name="java.io.File"/>
     <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
+    <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
+    <fullyQualifiedTypeName name="edu.kh.project.board.model.service.BoardService"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ModelAttribute"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.SessionAttribute"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
+    <fullyQualifiedTypeName name="org.springframework.web.servlet.mvc.support.RedirectAttributes"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestParam"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="edu.kh.project.board.model.exception.ImageDeleteException"/>
+    <fullyQualifiedTypeName name="edu.kh.project.board.model.exception.ImageUpdateException"/>
 </qualifiedTypeNameHistroy>
