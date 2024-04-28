@@ -55,7 +55,7 @@ public class BoardTypeInterceptor implements HandlerInterceptor{
 		// 		--> 모든 클라이언트가 공용으로 사용
 		
 		
-		/* interceptor가 어떤 일 할 지 정해놓음 , 언제 일 할지 설정 필요 config*/
+		/* interceptor가 어떤 일 할 지 정해놓음 , 언제 일 할지 설정 필요 config */
 		
 		
 		// application scope 객체 얻어오기
