@@ -62,7 +62,7 @@
 
 	<!-- 댓글 삭제 -->
 	<delete id="delete">
-		DELETE FROM "COMMENT"
+		UPDATE "COMMENT" SET COMMENT_DEL_FL = 'Y'
 		WHERE COMMENT_NO = #{commentNo}
 	</delete>
 	
