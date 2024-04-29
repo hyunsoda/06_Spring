@@ -153,6 +153,9 @@
 
     </main>
 
+    <!-- th:text의 다른 표기법  : [$[${}]] -->
+
+
 
     <th:block th:replace="~{common/footer}"></th:block>
 
@@ -167,9 +170,13 @@
         // 현재 게시글 좋아요 여부를 전역변수로 저장
         let likeCheck = /*[[${board.likeCheck}]]*/ "좋아요 여부";
 
+        const userDefaultImage = /*[[#{user.default.image}]]*/ "기본이미지";
+        // messages.properties에서 가져올 때는 #{}
+
     </script>
 
     <script src="/js/board/boardDetail.js"></script>
+    <script src="/js/board/comment.js"></script>
     
 </body>
 </html>
