@@ -350,7 +350,7 @@ memberPw.addEventListener("input", e=>{
         pwMessage.classList.remove("confirm","error");
         checkObj.memberPw = false; // 비밀번호가 유효하지 않다고 표시
         memberPw.value =""; // 처음에 띄어쓰기 입력 못하게 하기
-        return;
+        return; 
     }
 
     // 4) 입력 받은 비밀번호 정규식 검사
