@@ -91,4 +91,10 @@ public interface BoardMapper {
 	List<Board> selectSearchList(Map<String, Object> paramMap, RowBounds rowBounds);
 
 
+	/** DB 이미지 파일명 목록 조회
+	 * @return
+	 */
+	List<String> selectDbImageList();
+
+
 }
