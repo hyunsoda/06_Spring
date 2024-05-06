@@ -146,7 +146,7 @@ public class MyPageController {
 	
 	
 	/** 비밀번호 변경
-	 * @param parmaMap : 모든 파라미터를 맵으로 저장
+	 * @param paramMap : 모든 파라미터를 맵으로 저장
 	 * @param loginMember : 세션 로그인한 회원 정보
 	 * @param ra
 	 * @return
