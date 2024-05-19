@@ -51,4 +51,17 @@ public class ExceptionController {
 
 }
 
-	
+/*
+ * HTTP 응답 상태 코드
+ * 
+ * 400 : 잘못된 요청 (Bad Request)
+ * 
+ * 403 : 서버에서 외부 접근 거부 (Forbidden)
+ * 
+ * 404 : 요청 주소를 찾을 수 없다 (Not Found)
+ * 
+ * 405 : 허용되지 않은 메서드 (요청방식) (Method Not Allowed)
+ * 
+ * 500 : 서버 내부 오류 (Internal Server Error)
+ * 
+ * */
