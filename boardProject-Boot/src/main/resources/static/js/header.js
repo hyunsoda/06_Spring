@@ -47,7 +47,7 @@ async function fetchData(){
                         // promise객체를 test형태로 parsing할 때까지 기다림
     console.log("serviceKey : ", serviceKey);
 
-    const url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
+    const url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst'; // 요청주소
 
     // URLSearchParams : URL의 쿼리문자열을 쉽게 다룰 수 있게 해주는 내장 객체
     // 단 사용 시 decode 서비스 키 사용 -> URLSearchParams가 데이터를 인코딩하기 때문
